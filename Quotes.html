@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Quotes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <title>Share and Heal-Quotes</title>
+</head>
+<body>
+    <div class="container">
+        <i class="fas fa-quote-left"></i>
+       <div id="quotes"></div>
+       <div id="author"></div>
+       <i class="fas fa-quote-right"></i>
+       <button class="buttons next" id="QuoteB">New Quotes</button>
+       </div>
+</body>
+    <script >
+        const quotes=document.getElementById("quotes");
+        const author= document.getElementById("author");
+        const QuoteB= document.getElementById("QuoteB");
+        let realData="";
+        let quotesData="";
+
+        const getNewQuotes=()=>{
+            let rnum=Math.floor(Math.random()*realData.length);
+            quotesData=realData[rnum];
+            quotes.innerText=`${quotesData.text}`;
+            quotesData.author != null?
+           ( author.innerText=`${quotesData.author}`)
+           : ( author.innerText="unknown");
+        };
+       const getQuotes = async () =>{
+            const api="https://type.fit/api/quotes";
+            try{
+                let data=await fetch(api)
+                realData= await data.json();
+                getNewQuotes();
+                //console.log(realData);
+
+            } catch (error){}
+        };
+
+        QuoteB.addEventListener("click",getNewQuotes);
+        getQuotes()
+    </script>
+</html>
